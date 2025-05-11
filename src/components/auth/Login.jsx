@@ -1,0 +1,109 @@
+import React from "react";
+import { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
+function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
+  const API_PATH = import.meta.env.VITE_BE_API_PATH;
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post(`${API_PATH}/Auth/login`, {
+        email,
+        password,
+      });
+      if (response.status === 200) {
+        sessionStorage.setItem('token', response.data.token)
+        sessionStorage.setItem('userId', response.data.id)
+        sessionStorage.setItem('role', response.data.roles.$values[0])
+        const role = sessionStorage.getItem("role").toLowerCase()
+        navigate(`/${role}-dashboard`)
+      }
+    } catch (err) {
+      if(err.response){
+        setError(err.response.data)
+      }
+    }
+  };
+
+  return (
+    <div className="flex flex-col items-center h-screen justify-center bg-gradient-to-b from-blue-100 to-blue-300 space-y-6">
+      <h2 className="font-sevillana text-4xl text-white drop-shadow-md">
+        Hệ thống quản lý vào ra
+      </h2>
+      <div className="border shadow-lg rounded-lg p-6 w-96 bg-white">
+        <h2 className="text-2xl font-bold mb-6 text-center text-blue-600">
+          Đăng nhập
+        </h2>
+        {error && <p className="text-red-500">{error}</p>}
+        <form
+          className="rounded-lg border border-gray-200 p-6"
+          onSubmit={handleSubmit}
+        >
+          <div className="mb-4">
+            <label
+              htmlFor="email"
+              className="block text-gray-700 font-medium mb-2"
+            >
+              Nhập email
+            </label>
+            <input
+              type="email"
+              name="email"
+              placeholder="abc@gmail.com"
+              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label
+              htmlFor="password"
+              className="block text-gray-700 font-medium mb-2"
+            >
+              Nhập mật khẩu
+            </label>
+            <input
+              name="password"
+              type="password"
+              placeholder="*********"
+              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+          <div className="mb-4 flex items-center justify-between">
+            <a
+              href="./register"
+              className="text-blue-600 hover:text-blue-800"
+            >
+              Đăng ký
+            </a>
+            
+            <a
+              href="./forgot-password"
+              className="text-blue-600 hover:text-blue-800"
+            >
+              Quên mật khẩu?
+            </a>
+          </div>
+          <div className="mb-4">
+            <button
+              type="submit"
+              className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition duration-300"
+            >
+              Đăng nhập
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+}
+
+export default Login;
