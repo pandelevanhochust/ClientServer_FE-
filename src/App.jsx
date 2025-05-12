@@ -5,6 +5,9 @@ import Regiser from "./components/auth/Regiser";
 import PrivateRoutes from "./utils/PrivateRoutes";
 import RoleBaseRoutes from "./utils/RoleBaseRoutes";
 import AdminDashboard from "./pages/AdminDashboard";
+import UserList from "./components/admin/users/UserList";
+import AddUser from "./components/admin/users/AddUser";
+import UserDetail from "./components/admin/users/UserDetail";
 
 function App() {
   return (
@@ -26,7 +29,19 @@ function App() {
             </PrivateRoutes>
           }
         >
-          
+          {/* Users */}
+          <Route
+            path="/admin-dashboard/users"
+            element={<UserList onClose={() => window.history.back()} />}
+          />
+          <Route
+            path="/admin-dashboard/users/add-user"
+            element={<AddUser onClose={() => window.history.back()} />}
+          />
+          <Route
+            path="/admin-dashboard/users/:userId"
+            element={<UserDetail onClose={() => window.history.back()} />}
+          />
         </Route>
       </Routes>
     </BrowserRouter>

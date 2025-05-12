@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { convertToBase64 } from "../../utils/ImageHelper";
+import { convertToBase64 } from "../../../utils/ImageHelper";
 
-function Register() {
+const AddUser = () => {
   const [formData, setFormData] = useState({
     userName: "",
     fullName: "",
@@ -52,32 +52,63 @@ function Register() {
         faceImage: faceBase64,
         fingerprintImage: fingerprintBase64,
       };
-      console.log(payload)
+      console.log(payload);
 
-      const response = await axios.post(`${API_PATH}/Auth/register`, payload, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await axios.post(
+        `${API_PATH}/Admin/create-user`,
+        payload,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${sessionStorage.getItem("token")}`
+          },
+        }
+      );
 
       if (response.status === 200) {
         setSuccessMsg("Đăng ký thành công!");
-        setTimeout(() => navigate("/login"), 2000);
+        setTimeout(() => navigate(-1), 2000);
       }
     } catch (err) {
       console.error(err.response?.data || err.message);
-      setError(err.response?.data.message || "Đăng ký thất bại");
+      setError(err.response?.data.Message || "Đăng ký thất bại");
     }
   };
 
   return (
-    <div className="flex flex-col items-center h-screen justify-center bg-gradient-to-b from-blue-200 to-blue-400 space-y-6">
-      <div className="border shadow-lg rounded-lg p-6 w-96 bg-white">
-        <h2 className="text-2xl font-bold mb-6 text-center text-blue-600">
-          Đăng ký
-        </h2>
-        {error && <p className="text-red-500">{error}</p>}
-        {successMsg && <p className="text-green-600">{successMsg}</p>}
+    <div className="flex flex-col items-center h-screen justify-center space-y-6 bg-gray-50">
+      <div className="border shadow-lg rounded-2xl p-8 w-full max-w-md bg-white relative">
+        <div className="flex items-center justify-between mb-6">
+          <button
+            type="button"
+            onClick={() => navigate(-1)}
+            className="flex items-center gap-2 text-blue-600 hover:text-blue-800 transition"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M15 19l-7-7 7-7"
+              />
+            </svg>
+            Quay lại
+          </button>
+          <h2 className="text-2xl font-bold text-center text-blue-600 flex-1">
+            Thêm người dùng
+          </h2>
+        </div>
+
+        {error && <p className="text-red-500 text-sm mb-2">{error}</p>}
+        {successMsg && (
+          <p className="text-green-600 text-sm mb-2">{successMsg}</p>
+        )}
 
         <form className="space-y-4" onSubmit={handleSubmit}>
           {[
@@ -96,7 +127,7 @@ function Register() {
                 name={name}
                 onChange={handleChange}
                 required
-                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
           ))}
@@ -109,9 +140,9 @@ function Register() {
               name="faceImage"
               type="file"
               accept="image/*"
-              onChange={(e) => handleChange(e)}
+              onChange={handleChange}
               required
-              className="w-full"
+              className="w-full text-sm"
             />
           </div>
 
@@ -123,9 +154,9 @@ function Register() {
               name="fingerprintImage"
               type="file"
               accept="image/*"
-              onChange={(e) => handleChange(e)}
+              onChange={handleChange}
               required
-              className="w-full"
+              className="w-full text-sm"
             />
           </div>
 
@@ -133,12 +164,12 @@ function Register() {
             type="submit"
             className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition duration-300"
           >
-            Đăng ký
+            Thêm
           </button>
         </form>
       </div>
     </div>
   );
-}
+};
 
-export default Register;
+export default AddUser;
