@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import UserInfo from "./UserInfo";
 import UserUpdateForm from "./UserUpdateForm";
+import env from "../../../config/env.js";
 
 const UserDetail = () => {
   const { userId } = useParams();
@@ -11,12 +12,10 @@ const UserDetail = () => {
   const [loading, setLoading] = useState(false);
   const [editMode, setEditMode] = useState(false);
 
-  const API_PATH = import.meta.env.VITE_BE_API_PATH;
-
   const fetchUser = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(`${API_PATH}/User/${userId}`, {
+      const response = await axios.get(`${env.BE_API_PATH}/User/${userId}`, {
         headers: {
           Authorization: `Bearer ${sessionStorage.getItem("token")}`,
         },

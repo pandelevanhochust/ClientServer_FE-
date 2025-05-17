@@ -1,11 +1,10 @@
 import axios from "axios"; 
-
-const API_PATH = import.meta.env.VITE_BE_API_PATH;
+import env from "../config/env.js";
 
 export const getAllUsers = async () => {
   let users;
   try {
-    const response = await axios.get(`${API_PATH}/Admin/list-user`, {
+    const response = await axios.get(`${env.BE_API_PATH}/Admin/list-user`, {
       headers: {
         Authorization: `Bearer ${sessionStorage.getItem("token")}`,
       },

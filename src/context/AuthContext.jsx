@@ -1,12 +1,12 @@
 import axios from "axios";
 import React, { createContext, useContext, useEffect, useState } from "react";
+import env from "../config/env.js";
 
 const userContext = createContext();
 
 function AuthContext({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false);
-  const API_PATH = import.meta.env.VITE_BE_API_PATH;
 
   useEffect(() => {
     const verifyUser = async () => {
@@ -17,7 +17,7 @@ function AuthContext({ children }) {
 
         if (token && userId) {
           const response = await axios.get(
-            `${API_PATH}/User/${userId}`,
+            `${env.BE_API_PATH}/User/${userId}`,
             {
               headers: {
                 Authorization: `Bearer ${token}`,

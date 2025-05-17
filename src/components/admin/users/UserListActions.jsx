@@ -2,17 +2,17 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FaEye, FaTrash } from "react-icons/fa";
+import env from "../../../config/env.js";
 
 const UserListActions = ({ id, onUserRefresh }) => {
   const navigate = useNavigate();
-  const API_PATH = import.meta.env.VITE_BE_API_PATH;
   const role = sessionStorage.getItem("role");
 
   const handleDelete = async (id) => {
     const confirm = window.confirm("Bạn chắc chắn muốn xóa người dùng này ?");
     if (confirm) {
       try {
-        const response = await axios.delete(`${API_PATH}/Admin/delete-user/${id}`, {
+        const response = await axios.delete(`${env.BE_API_PATH}/Admin/delete-user/${id}`, {
           headers: {
             Authorization: `Bearer ${sessionStorage.getItem("token")}`,
           },

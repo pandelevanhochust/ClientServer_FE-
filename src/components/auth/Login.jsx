@@ -2,18 +2,17 @@ import React from "react";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import env from "../../config/env.js";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-  const API_PATH = import.meta.env.VITE_BE_API_PATH;
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`${API_PATH}/Auth/login`, {
+      const response = await axios.post(`${env.BE_API_PATH}/Auth/login`, {
         email,
         password,
       });
@@ -26,7 +25,7 @@ function Login() {
       }
     } catch (err) {
       if(err.response){
-        setError(err.response.data)
+        setError(err.response.data.message)
       }
     }
   };

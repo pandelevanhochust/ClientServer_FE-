@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { convertToBase64 } from "../../utils/ImageHelper";
+import env from "../../config/env.js";
 
 function Register() {
   const [formData, setFormData] = useState({
@@ -16,7 +17,6 @@ function Register() {
   const [error, setError] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
   const navigate = useNavigate();
-  const API_PATH = import.meta.env.VITE_BE_API_PATH;
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -54,7 +54,7 @@ function Register() {
       };
       console.log(payload)
 
-      const response = await axios.post(`${API_PATH}/Auth/register`, payload, {
+      const response = await axios.post(`${env.BE_API_PATH}/Auth/register`, payload, {
         headers: {
           "Content-Type": "application/json",
         },
