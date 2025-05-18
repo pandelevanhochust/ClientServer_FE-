@@ -11,6 +11,8 @@ import UserList from "./components/admin/users/UserList";
 import AddUser from "./components/admin/users/AddUser";
 import UserDetail from "./components/admin/users/UserDetail";
 import StudentList from "./components/admin/students/StudentList";
+import AddStudent from "./components/admin/students/AddStudent";
+import StudentDetail from "./components/admin/students/StudentDetail";
 
 function App() {
   return (
@@ -52,6 +54,14 @@ function App() {
           <Route
             path="/admin-dashboard/students"
             element={<StudentList onClose={() => window.history.back()} />}
+          />
+          <Route
+            path="/admin-dashboard/students/:userId"
+            element={<StudentDetail onClose={() => window.history.back()} />}
+          />
+          <Route
+            path="/admin-dashboard/students/add-student"
+            element={<AddStudent onClose={() => window.history.back()} />}
           />
         </Route>
       </Routes>

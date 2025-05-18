@@ -17,3 +17,37 @@ export const getAllUsers = async () => {
   }
   return users;
 };
+
+export const getDefaultUsers = async () => {
+  let defaultUsers;
+  try {
+    const response = await axios.get(`${env.BE_API_PATH}/User/get-defualt-user`, {
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+      },
+    });
+    if (response) {
+      defaultUsers = response.data.$values;
+    }
+  } catch (err) {
+    alert(err.response.data.message || "Không thể lấy thông tin người dùng");
+  }
+  return defaultUsers;
+};
+
+export const getAllStudents = async () => {
+  let users;
+  try {
+    const response = await axios.get(`${env.BE_API_PATH}/Admin/list-student`, {
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+      },
+    });
+    if (response) {
+      users = response.data.$values;
+    }
+  } catch (err) {
+    alert(err.response.data.message);
+  }
+  return users;
+};
