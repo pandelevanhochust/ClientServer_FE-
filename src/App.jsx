@@ -2,6 +2,8 @@ import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "./components/auth/Login";
 import Regiser from "./components/auth/Regiser";
+import ForgotPassword from "./components/auth/ForgotPassword";
+import ChangePassword from "./components/auth/ChangePassword";
 import PrivateRoutes from "./routes/PrivateRoutes";
 import RoleBaseRoutes from "./routes/RoleBaseRoutes";
 import AdminDashboard from "./pages/AdminDashboard";
@@ -18,6 +20,8 @@ function App() {
         <Route path="/" element={<Login />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Regiser />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/change-password" element={<ChangePassword />} />
 
         {/* Admin */}
         <Route
