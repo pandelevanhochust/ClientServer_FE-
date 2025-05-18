@@ -13,6 +13,7 @@ import UserDetail from "./components/admin/users/UserDetail";
 import StudentList from "./components/admin/students/StudentList";
 import AddStudent from "./components/admin/students/AddStudent";
 import StudentDetail from "./components/admin/students/StudentDetail";
+import Setting from "./components/admin/settings/Setting";
 
 function App() {
   return (
@@ -23,7 +24,6 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Regiser />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/change-password" element={<ChangePassword />} />
 
         {/* Admin */}
         <Route
@@ -62,6 +62,17 @@ function App() {
           <Route
             path="/admin-dashboard/students/add-student"
             element={<AddStudent onClose={() => window.history.back()} />}
+          />
+
+          {/* Setting */}
+          <Route
+            path="/admin-dashboard/setting"
+            element={<Setting onClose={() => window.history.back()} />}
+          />
+
+          <Route
+            path="/admin-dashboard/setting/change-password"
+            element={<ChangePassword onClose={() => window.history.back()}/>}
           />
         </Route>
       </Routes>

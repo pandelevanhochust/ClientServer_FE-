@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import env from "../../config/env";
+import { useNavigate } from "react-router-dom";
 
 const ChangePassword = () => {
   const [newPassword, setNewPassword] = useState("");
@@ -8,6 +9,7 @@ const ChangePassword = () => {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const userId = sessionStorage.getItem("userId");
+  const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,7 +25,7 @@ const ChangePassword = () => {
       const response = await axios.put(
         `${
           env.BE_API_PATH
-        }/Auth/change-password/${userId}?newPassword=${encodeURI(newPassword)}`,
+        }/Auth/change-password/${userId}?newPassword=${encodeURI(newPassword)}`,{},
         {
           headers: {
             Authorization: `Bearer ${sessionStorage.getItem("token")}`,
@@ -32,6 +34,9 @@ const ChangePassword = () => {
       );
       if (response) {
         setMessage(response.data.message || "Đổi mật khẩu thành công");
+        setTimeout(() => {
+          navigate(-1)
+        },2000)
       }
     } catch (error) {
       setError(

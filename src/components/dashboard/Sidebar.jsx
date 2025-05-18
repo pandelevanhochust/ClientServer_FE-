@@ -8,6 +8,7 @@ import {
   FaTachometerAlt,
   FaUsers,
   FaChalkboardTeacher,
+  FaClipboardCheck,
 } from "react-icons/fa";
 
 const Sidebar = () => {
@@ -93,6 +94,18 @@ const Sidebar = () => {
         >
           <FaFileAlt className="text-xl" />
           <span className="text-lg">Phân quyền </span>
+        </NavLink>
+
+        <NavLink
+          to={`/${role}-dashboard/permission`}
+          className={({ isActive }) =>
+            `${
+              isActive ? "bg-blue-400" : "hover:bg-blue-600"
+            } flex items-center space-x-4 block py-3 px-6 rounded-lg transition-colors duration-300`
+          }
+        >
+          <FaClipboardCheck className="text-xl" />
+          <span className="text-lg">Điểm danh </span>
         </NavLink>
 
         <NavLink
