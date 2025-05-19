@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+  vite-frontend:
+    build: .
+    container_name: vite-react-app
+    ports:
+      - "42069:80"
+    restart: always
