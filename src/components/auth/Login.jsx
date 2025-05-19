@@ -3,11 +3,13 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import env from "../../config/env.js";
+import { useAuth } from "../../context/AuthContext.jsx";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
+  const {login} = useAuth()
   const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,6 +22,7 @@ function Login() {
         sessionStorage.setItem('token', response.data.token)
         sessionStorage.setItem('userId', response.data.id)
         sessionStorage.setItem('role', response.data.roles.$values[0])
+        login()
         const role = sessionStorage.getItem("role").toLowerCase()
         navigate(`/${role}-dashboard`)
       }
