@@ -13,8 +13,7 @@ function AuthContext({ children }) {
     setLoading(true);
     try {
       const userId = sessionStorage.getItem("userId");
-
-      if (token && userId) {
+      if (token.BE_TOKEN && userId) {
         const response = await axios.get(
           `${env.BE_API_PATH}/User/${userId}`,
           {

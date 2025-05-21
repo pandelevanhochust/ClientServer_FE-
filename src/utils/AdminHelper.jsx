@@ -56,6 +56,24 @@ export const getAllStudents = async () => {
   return users;
 };
 
+export const getAllLecturers = async () => {
+  let lecturers;
+  try {
+    const response = await axios.get(`${env.BE_API_PATH}/Admin/list-lecturer`, {
+      headers: {
+        Authorization: `Bearer ${token.BE_TOKEN}`,
+      },
+    });
+    if (response.status === 200) {
+      lecturers = response.data.$values;
+    }
+  } catch (err) {
+    alert(err.response.data.Message || "Không thể lấy danh sách giảng viên");
+  }
+  return lecturers;
+};
+
+
 export const getAttendancesList = async () => {
   let attendanceList;
   try {
@@ -76,4 +94,29 @@ export const getAttendancesList = async () => {
     alert(err.response.data.Message || "Không thể lấy danh sách điểm danh")
   }
   return attendanceList
+};
+
+export const getAllDevices = async (pageSize, page) => {
+  //pageSize : Maximum amount of entities in a one page
+  //page : Sequence number of page starting from 0
+  let deviceList;
+  try {
+    const response = await axios.get(
+      `${env.TB_API_PATH}/tenant/deviceInfos?pageSize=${pageSize}&page=${page}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token.TB_TOKEN}`,
+        },
+      }
+    );
+    if(response.status === 200){
+      console.log(response.data.data)
+      deviceList = response.data.data
+    } else {
+      return []
+    }
+  } catch (err) {
+    alert(err.response.data.message || "Không thể lấy danh sách thiết bị")
+  }
+  return deviceList
 };

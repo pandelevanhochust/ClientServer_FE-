@@ -32,7 +32,7 @@ const AttendanceListActions = ({ id, onAttendanceRefresh }) => {
           <button
             title="Xem chi tiết"
             className="border border-blue-600 text-blue-600 p-2 rounded-full hover:bg-blue-600 hover:text-white transition duration-300 ease-in-out transform hover:scale-110 m-2"
-            onClick={() => navigate(`/${role}-dashboard/students/${id}`)}
+            onClick={() => navigate(`/${role}-dashboard/attendances/${id}`)}
           >
             <FaEye size={18} />
           </button>

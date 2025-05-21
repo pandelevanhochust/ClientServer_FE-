@@ -1,48 +1,26 @@
-import React, { useEffect, useState } from "react";
-import {
-  getAllDevices,
-  getAllLecturers,
-  getAllStudents,
-} from "../../../utils/AdminHelper";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
 import axios from "axios";
 import env from "../../../config/env";
 import token from "../../../config/token";
 
-const AddAttendance = () => {
-  const navigate = useNavigate();
-
-  const [devices, setDevices] = useState([]);
-  const [students, setStudents] = useState([]);
-  const [lecturers, setLecturers] = useState([]);
+const UpdateAttendanceForm = ({ attendance, onSuccess, onCancel, lecturers, students, devices }) => {
+  const [error, setError] = useState("");
   const [formData, setFormData] = useState({
-    lecturerId: "",
-    studentIds: [],
-    deviceId: "",
-    timeStart: "",
-    timeEnd: "",
+    lecturerId: attendance.lecturer.userId,
+    studentIds: attendance.student.$values.map(
+      (student) => student.student.userId
+    ),
+    deviceId: attendance.deviceId,
   });
-
-  const fetchData = async () => {
-    const [devices, students, lecturers] = await Promise.all([
-      getAllDevices(99, 0), //Please check params in AdminHelper.jsx
-      getAllStudents(),
-      getAllLecturers(),
-    ]);
-    setDevices(devices);
-    setStudents(students);
-    setLecturers(lecturers);
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
+    console.log(formData)
+
     try {
-      const response = await axios.post(
-        `${env.BE_API_PATH}/Attendance/create-attendance`,
+      const response = await axios.put(
+        `${env.BE_API_PATH}/Attendance/update-attendance/${attendance.id}`,
         formData,
         {
           headers: {
@@ -50,49 +28,15 @@ const AddAttendance = () => {
           },
         }
       );
-      if (response.status === 200) {
-        alert("Tạo danh sách điêm danh thành công!");
-        navigate("/admin-dashboard/attendances");
-      }
-    } catch (error) {
-      alert(
-        error?.response?.data?.message || "Có lỗi khi thêm danh sách điểm danh"
-      );
+      onSuccess(response.data.message);
+    } catch (err) {
+      console.log(err)
+      setError(err?.response?.data?.message || "Cập nhật thất bại");
     }
   };
-
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="w-full max-w-md mx-auto bg-white p-6 rounded-lg shadow-md space-y-4 mt-20"
-    >
-      <div className="flex items-center justify-between mb-6">
-        <button
-          type="button"
-          onClick={() => navigate(-1)}
-          className="flex items-center gap-2 text-blue-600 hover:text-blue-800 transition"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M15 19l-7-7 7-7"
-            />
-          </svg>
-          Quay lại
-        </button>
-        <h2 className="text-2xl font-bold text-center text-blue-600 flex-1">
-          Thêm điểm danh
-        </h2>
-      </div>
-
+    <form onSubmit={handleSubmit} className="space-y-4">
+      {error && <p className="text-red-500">{error}</p>}
       <div>
         <label className="block text-sm font-medium mb-2">Chọn giảng viên</label>
         <select
@@ -157,11 +101,13 @@ const AddAttendance = () => {
                 studentIds: [...formData.studentIds, selectedId],
               });
             }
-            e.target.value = ""; 
+            e.target.value = "";
           }}
           className="border rounded px-3 py-2 w-full"
         >
-          <option value="" key="default-student">-- Chọn sinh viên --</option>
+          <option value="" key="default-student">
+            -- Chọn sinh viên --
+          </option>
           {students
             .filter((student) => !formData.studentIds.includes(student.userId))
             .map((student) => (
@@ -192,43 +138,24 @@ const AddAttendance = () => {
           ))}
         </select>
       </div>
-      <div className="flex items-center gap-15 flex-wrap ">
-        <div>
-          <label className="block text-sm font-medium">Ngày bắt đầu</label>
-          <input
-            type="date"
-            className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            value={formData.timeStart}
-            onChange={(e) =>
-              setFormData({ ...formData, timeStart: e.target.value })
-            }
-          />
-        </div>
 
-        <div>
-          <label className="block text-sm font-medium">Ngày kết thúc</label>
-          <input
-            type="date"
-            className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            value={formData.timeEnd}
-            onChange={(e) =>
-              setFormData({ ...formData, timeEnd: e.target.value })
-            }
-            min={formData.timeStart}
-          />
-        </div>
-      </div>
-
-      <div className="flex justify-center">
+      <div className="flex gap-4">
         <button
           type="submit"
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+          className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
         >
-          Lập lịch điểm danh
+          Lưu
+        </button>
+        <button
+          type="button"
+          onClick={onCancel}
+          className="bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-500"
+        >
+          Hủy
         </button>
       </div>
     </form>
   );
 };
 
-export default AddAttendance;
+export default UpdateAttendanceForm;

@@ -36,6 +36,7 @@ function Login() {
         sessionStorage.setItem("role", role);
 
         login(); 
+        console.log(role)
 
         navigate(`/${role}-dashboard`);
       }

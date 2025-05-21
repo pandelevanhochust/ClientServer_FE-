@@ -16,6 +16,7 @@ import StudentDetail from "./components/admin/students/StudentDetail";
 import Setting from "./components/admin/settings/Setting";
 import AttendanceList from "./components/admin/attendance/AttendanceList";
 import AddAttendance from "./components/admin/attendance/AddAttendance";
+import AttendanceDetail from "./components/admin/attendance/AttendanceDetail";
 
 function App() {
   return (
@@ -32,7 +33,7 @@ function App() {
           path="/admin-dashboard"
           element={
             <PrivateRoutes>
-              <RoleBaseRoutes allowedRoles={["Admin"]}>
+              <RoleBaseRoutes allowedRoles={["admin"]}>
                 <AdminDashboard />
               </RoleBaseRoutes>
             </PrivateRoutes>
@@ -70,6 +71,11 @@ function App() {
           <Route
             path="/admin-dashboard/attendances"
             element={<AttendanceList onClose={() => window.history.back()} />}
+          />
+
+          <Route
+            path="/admin-dashboard/attendances/:attendanceId"
+            element={<AttendanceDetail onClose={() => window.history.back()} />}
           />
 
           <Route
