@@ -14,6 +14,8 @@ import StudentList from "./components/admin/students/StudentList";
 import AddStudent from "./components/admin/students/AddStudent";
 import StudentDetail from "./components/admin/students/StudentDetail";
 import Setting from "./components/admin/settings/Setting";
+import AttendanceList from "./components/admin/attendance/AttendanceList";
+import AddAttendance from "./components/admin/attendance/AddAttendance";
 
 function App() {
   return (
@@ -62,6 +64,17 @@ function App() {
           <Route
             path="/admin-dashboard/students/add-student"
             element={<AddStudent onClose={() => window.history.back()} />}
+          />
+
+          {/* Attendance */}
+          <Route
+            path="/admin-dashboard/attendances"
+            element={<AttendanceList onClose={() => window.history.back()} />}
+          />
+
+          <Route
+            path="/admin-dashboard/attendances/create-attendance"
+            element={<AddAttendance onClose={() => window.history.back()} />}
           />
 
           {/* Setting */}

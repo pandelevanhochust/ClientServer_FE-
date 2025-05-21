@@ -97,7 +97,7 @@ const Sidebar = () => {
         </NavLink>
 
         <NavLink
-          to={`/${role}-dashboard/permission`}
+          to={`/${role}-dashboard/attendances`}
           className={({ isActive }) =>
             `${
               isActive ? "bg-blue-400" : "hover:bg-blue-600"

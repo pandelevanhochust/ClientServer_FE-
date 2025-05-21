@@ -4,31 +4,52 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import env from "../../config/env.js";
 import { useAuth } from "../../context/AuthContext.jsx";
+import { loginToTB } from "../../utils/LoginToThingsBoard.jsx";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
-  const {login} = useAuth()
+  const { login } = useAuth();
   const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError(""); 
+
     try {
       const response = await axios.post(`${env.BE_API_PATH}/Auth/login`, {
         email,
         password,
       });
+
       if (response.status === 200) {
-        sessionStorage.setItem('token', response.data.token)
-        sessionStorage.setItem('userId', response.data.id)
-        sessionStorage.setItem('role', response.data.roles.$values[0])
-        login()
-        const role = sessionStorage.getItem("role").toLowerCase()
-        navigate(`/${role}-dashboard`)
+        const { token, id, roles } = response.data;
+        const role = roles?.$values?.[0]?.toLowerCase();
+
+        if (!role) {
+          setError("Không xác định vai trò người dùng.");
+          return;
+        }
+
+        sessionStorage.setItem("token", token);
+        sessionStorage.setItem("userId", id);
+        sessionStorage.setItem("role", role);
+
+        login(); 
+
+        navigate(`/${role}-dashboard`);
+      }
+
+      const TBToken = await loginToTB();
+      if (TBToken) {
+        sessionStorage.setItem("TBToken", TBToken);
       }
     } catch (err) {
-      if(err.response){
-        setError(err.response.data.message)
+      if (err.response?.data?.message) {
+        setError(err.response.data.message);
+      } else {
+        setError("Có lỗi xảy ra. Vui lòng thử lại.");
+        console.error(err);
       }
     }
   };
@@ -80,13 +101,10 @@ function Login() {
             />
           </div>
           <div className="mb-4 flex items-center justify-between">
-            <a
-              href="./register"
-              className="text-blue-600 hover:text-blue-800"
-            >
+            <a href="./register" className="text-blue-600 hover:text-blue-800">
               Đăng ký
             </a>
-            
+
             <a
               href="./forgot-password"
               className="text-blue-600 hover:text-blue-800"

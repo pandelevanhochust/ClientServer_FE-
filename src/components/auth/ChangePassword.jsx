@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import env from "../../config/env";
 import { useNavigate } from "react-router-dom";
+import token from "../../config/token";
 
 const ChangePassword = () => {
   const [newPassword, setNewPassword] = useState("");
@@ -28,7 +29,7 @@ const ChangePassword = () => {
         }/Auth/change-password/${userId}?newPassword=${encodeURI(newPassword)}`,{},
         {
           headers: {
-            Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+            Authorization: `Bearer ${token.BE_TOKEN}`,
           },
         }
       );

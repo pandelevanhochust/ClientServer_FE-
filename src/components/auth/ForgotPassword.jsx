@@ -18,12 +18,11 @@ const ForgotPassword = () => {
 
     try {
       const encodedEmail = encodeURIComponent(email);
+      const encodedPassword = encodeURIComponent(newPassword)
       const response = await axios.put(
         `${
           env.BE_API_PATH
-        }/Auth/forgot-password/${encodedEmail}?newPassword=${encodeURIComponent(
-          newPassword
-        )}`
+        }/Auth/forgot-password/${encodedEmail}?newPassword=${encodedPassword}`
       );
       setMessage(response.data.message || "Đổi mật khẩu thành công");
       setTimeout(() => {

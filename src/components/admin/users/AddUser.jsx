@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { convertToBase64 } from "../../../utils/ImageHelper";
 import env from "../../../config/env.js"
+import token from "../../../config/token.js";
 
 const AddUser = () => {
   const [formData, setFormData] = useState({
@@ -60,7 +61,7 @@ const AddUser = () => {
         {
           headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${sessionStorage.getItem("token")}`
+            "Authorization": `Bearer ${token.BE_TOKEN}`
           },
         }
       );

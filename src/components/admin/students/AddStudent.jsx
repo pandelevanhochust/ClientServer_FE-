@@ -3,6 +3,7 @@ import { getDefaultUsers } from "../../../utils/AdminHelper";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import env from "../../../config/env.js";
+import token from "../../../config/token.js";
 
 const AddStudent = () => {
   const [loading, setLoading] = useState(false);
@@ -45,7 +46,7 @@ const AddStudent = () => {
         },
         {
           headers: {
-            Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+            Authorization: `Bearer ${token.BE_TOKEN}`,
           },
         }
       );

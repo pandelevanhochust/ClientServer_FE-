@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import env from "../../../config/env";
 import UserInfo from "../users/UserInfo";
+import token from "../../../config/token";
 
 const Setting = () => {
   const userId = sessionStorage.getItem("userId");
@@ -16,7 +17,7 @@ const Setting = () => {
     try {
       const response = await axios.get(`${env.BE_API_PATH}/User/${userId}`, {
         headers: {
-          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+          Authorization: `Bearer ${token.BE_TOKEN}`,
         },
       });
       setUser(response.data);

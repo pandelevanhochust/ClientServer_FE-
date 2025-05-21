@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FaEye, FaTrash } from "react-icons/fa";
 import env from "../../../config/env.js";
+import token from "../../../config/token.js";
 
 const UserListActions = ({ id, onUserRefresh }) => {
   const navigate = useNavigate();
@@ -14,7 +15,7 @@ const UserListActions = ({ id, onUserRefresh }) => {
       try {
         const response = await axios.delete(`${env.BE_API_PATH}/Admin/delete-user/${id}`, {
           headers: {
-            Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+            Authorization: `Bearer ${token.BE_TOKEN}`,
           },
         });
 
