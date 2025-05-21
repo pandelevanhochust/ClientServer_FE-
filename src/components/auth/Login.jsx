@@ -35,7 +35,7 @@ function Login() {
         sessionStorage.setItem("userId", id);
         sessionStorage.setItem("role", role);
 
-        login(); 
+        await login(); 
         console.log(role)
 
         navigate(`/${role}-dashboard`);

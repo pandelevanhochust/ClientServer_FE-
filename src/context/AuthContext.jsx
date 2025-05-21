@@ -47,8 +47,8 @@ function AuthContext({ children }) {
     console.log(user);
   }, [user]);
 
-  const login = () => {
-    verifyUser()
+  const login = async () => {
+    await verifyUser()
   };
 
   const logout = () => {
