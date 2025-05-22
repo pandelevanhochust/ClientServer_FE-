@@ -5,9 +5,10 @@ import { getBeToken, getTbToken } from "../config/token.js";
 export const getAllUsers = async () => {
   let users;
   try {
+    console.log("token fubc:",getBeToken())
     const response = await axios.get(`${env.BE_API_PATH}/Admin/list-user`, {
       headers: {
-        Authorization: `Bearer ${getBeToken()}`,
+        Authorization: `Bearer ${sessionStorage.getItem('token')}`,
       },
     });
     if (response.status === 200) {

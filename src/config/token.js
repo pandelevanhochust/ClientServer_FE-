@@ -1,2 +1,2 @@
-export const getBeToken = () => {sessionStorage.getItem('token')}
-export const getTbToken = () => {sessionStorage.getItem('TBToken')}
+export const getBeToken = () => sessionStorage.getItem('token')
+export const getTbToken = () => sessionStorage.getItem('TBToken')
