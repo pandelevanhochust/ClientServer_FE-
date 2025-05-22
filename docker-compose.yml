@@ -5,7 +5,7 @@ services:
     build: .
     container_name: vite-react-app
     ports:
-      - "42069:80"
+      - "80:80"
     env_file:
       - .env
     restart: always
