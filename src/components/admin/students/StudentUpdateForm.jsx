@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import axios from 'axios';
 import env from "../../../config/env.js"
-import token from '../../../config/token.js';
+import { getBeToken } from '../../../config/token.js';
 
 const StudentUpdateForm = ({ student, onSuccess, onCancel }) => {
   const [formData, setFormData] = useState({
@@ -21,7 +21,7 @@ const StudentUpdateForm = ({ student, onSuccess, onCancel }) => {
     try {
       const response = await axios.put(`${env.BE_API_PATH}/Admin/update-student/${student.userId}`, formData, {
         headers: {
-          "Authorization": `Bearer ${token.BE_TOKEN}`,
+          "Authorization": `Bearer ${getBeToken()}`,
         },
       });
       onSuccess(response.data.message);

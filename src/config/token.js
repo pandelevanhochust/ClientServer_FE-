@@ -1,6 +1,2 @@
-const token = {
-    BE_TOKEN : sessionStorage.getItem('token'),
-    TB_TOKEN : sessionStorage.getItem('TBToken')
-}
-
-export default token
+export const getBeToken = () => {sessionStorage.getItem('token')}
+export const getTbToken = () => {sessionStorage.getItem('TBToken')}

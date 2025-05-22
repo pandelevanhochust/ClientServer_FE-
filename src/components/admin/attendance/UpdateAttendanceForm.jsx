@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import env from "../../../config/env";
-import token from "../../../config/token";
+import { getBeToken } from "../../../config/token.js";
 
 const UpdateAttendanceForm = ({ attendance, onSuccess, onCancel, lecturers, students, devices }) => {
   const [error, setError] = useState("");
@@ -24,7 +24,7 @@ const UpdateAttendanceForm = ({ attendance, onSuccess, onCancel, lecturers, stud
         formData,
         {
           headers: {
-            Authorization: `Bearer ${token.BE_TOKEN}`,
+            Authorization: `Bearer ${getBeToken()}`,
           },
         }
       );

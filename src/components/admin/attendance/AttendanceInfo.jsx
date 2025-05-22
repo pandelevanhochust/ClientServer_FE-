@@ -6,6 +6,7 @@ const AttendanceInfo = ({ attendanceInfo }) => {
       <div className="text-center text-gray-500 mt-10">Không có dữ liệu</div>
     );
 
+    console.log(attendanceInfo)
   const { lecturer, student, deviceId, timeStart, timeEnd, createdAt } =
     attendanceInfo;
 

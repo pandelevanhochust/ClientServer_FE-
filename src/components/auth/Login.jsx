@@ -14,7 +14,7 @@ function Login() {
   const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(""); 
+    setError("");
 
     try {
       const response = await axios.post(`${env.BE_API_PATH}/Auth/login`, {
@@ -35,15 +35,14 @@ function Login() {
         sessionStorage.setItem("userId", id);
         sessionStorage.setItem("role", role);
 
-        await login(); 
-        console.log(role)
+        const TBToken = await loginToTB();
+        if (TBToken) {
+          sessionStorage.setItem("TBToken", TBToken);
+        }
+
+        await login();
 
         navigate(`/${role}-dashboard`);
-      }
-
-      const TBToken = await loginToTB();
-      if (TBToken) {
-        sessionStorage.setItem("TBToken", TBToken);
       }
     } catch (err) {
       if (err.response?.data?.message) {

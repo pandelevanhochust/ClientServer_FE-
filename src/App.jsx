@@ -17,6 +17,7 @@ import Setting from "./components/admin/settings/Setting";
 import AttendanceList from "./components/admin/attendance/AttendanceList";
 import AddAttendance from "./components/admin/attendance/AddAttendance";
 import AttendanceDetail from "./components/admin/attendance/AttendanceDetail";
+import PermissionList from "./components/admin/permissions/PermissionList";
 
 function App() {
   return (
@@ -81,6 +82,12 @@ function App() {
           <Route
             path="/admin-dashboard/attendances/create-attendance"
             element={<AddAttendance onClose={() => window.history.back()} />}
+          />
+
+          {/* Permission */}
+          <Route
+            path="/admin-dashboard/permissions"
+            element={<PermissionList onClose={() => window.history.back()} />}
           />
 
           {/* Setting */}

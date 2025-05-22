@@ -1,7 +1,6 @@
 import axios from "axios";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import env from "../config/env.js";
-import token from "../config/token.js";
 
 const userContext = createContext();
 
@@ -13,12 +12,13 @@ function AuthContext({ children }) {
     setLoading(true);
     try {
       const userId = sessionStorage.getItem("userId");
-      if (token.BE_TOKEN && userId) {
+      const sessionToken = sessionStorage.getItem("token")
+      if (sessionToken && userId) {
         const response = await axios.get(
           `${env.BE_API_PATH}/User/${userId}`,
           {
             headers: {
-              Authorization: `Bearer ${token.BE_TOKEN}`,
+              Authorization: `Bearer ${sessionToken}`,
             },
           }
         );

@@ -4,7 +4,7 @@ import axios from "axios";
 import UserInfo from "./UserInfo";
 import UserUpdateForm from "./UserUpdateForm";
 import env from "../../../config/env.js";
-import token from "../../../config/token.js";
+import { getBeToken } from "../../../config/token.js";
 
 const UserDetail = () => {
   const { userId } = useParams();
@@ -18,7 +18,7 @@ const UserDetail = () => {
     try {
       const response = await axios.get(`${env.BE_API_PATH}/User/${userId}`, {
         headers: {
-          Authorization: `Bearer ${token.BE_TOKEN}`,
+          Authorization: `Bearer ${getBeToken()}`,
         },
       });
       setUser(response.data);

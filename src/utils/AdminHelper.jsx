@@ -1,13 +1,13 @@
 import axios from "axios";
 import env from "../config/env.js";
-import token from "../config/token.js";
+import { getBeToken, getTbToken } from "../config/token.js";
 
 export const getAllUsers = async () => {
   let users;
   try {
     const response = await axios.get(`${env.BE_API_PATH}/Admin/list-user`, {
       headers: {
-        Authorization: `Bearer ${token.BE_TOKEN}`,
+        Authorization: `Bearer ${getBeToken()}`,
       },
     });
     if (response.status === 200) {
@@ -26,7 +26,7 @@ export const getDefaultUsers = async () => {
       `${env.BE_API_PATH}/User/get-defualt-user`,
       {
         headers: {
-          Authorization: `Bearer ${token.BE_TOKEN}`,
+          Authorization: `Bearer ${getBeToken()}`,
         },
       }
     );
@@ -44,7 +44,7 @@ export const getAllStudents = async () => {
   try {
     const response = await axios.get(`${env.BE_API_PATH}/Admin/list-student`, {
       headers: {
-        Authorization: `Bearer ${token.BE_TOKEN}`,
+        Authorization: `Bearer ${getBeToken()}`,
       },
     });
     if (response.status === 200) {
@@ -61,7 +61,7 @@ export const getAllLecturers = async () => {
   try {
     const response = await axios.get(`${env.BE_API_PATH}/Admin/list-lecturer`, {
       headers: {
-        Authorization: `Bearer ${token.BE_TOKEN}`,
+        Authorization: `Bearer ${getBeToken()}`,
       },
     });
     if (response.status === 200) {
@@ -81,7 +81,7 @@ export const getAttendancesList = async () => {
       `${env.BE_API_PATH}/Attendance/list-attendance`,
       {
         headers: {
-          Authorization: `Bearer ${token.BE_TOKEN}`,
+          Authorization: `Bearer ${getBeToken()}`,
         },
       }
     );
@@ -105,7 +105,7 @@ export const getAllDevices = async (pageSize, page) => {
       `${env.TB_API_PATH}/tenant/deviceInfos?pageSize=${pageSize}&page=${page}`,
       {
         headers: {
-          Authorization: `Bearer ${token.TB_TOKEN}`,
+          Authorization: `Bearer ${getTbToken()}`,
         },
       }
     );

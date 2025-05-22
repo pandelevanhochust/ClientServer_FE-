@@ -7,7 +7,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import env from "../../../config/env";
-import token from "../../../config/token";
+import { getBeToken } from "../../../config/token";
 
 const AddAttendance = () => {
   const navigate = useNavigate();
@@ -46,7 +46,7 @@ const AddAttendance = () => {
         formData,
         {
           headers: {
-            Authorization: `Bearer ${token.BE_TOKEN}`,
+            Authorization: `Bearer ${getBeToken()}`,
           },
         }
       );

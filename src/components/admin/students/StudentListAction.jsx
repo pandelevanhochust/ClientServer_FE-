@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FaEye, FaTrash } from "react-icons/fa";
 import env from "../../../config/env.js";
-import token from "../../../config/token.js";
+import { getBeToken } from "../../../config/token.js";
 
 const StudentListActions = ({ id, onStudentRefresh }) => {
   const navigate = useNavigate();
@@ -15,7 +15,7 @@ const StudentListActions = ({ id, onStudentRefresh }) => {
       try {
         const response = await axios.delete(`${env.BE_API_PATH}/Admin/delete-student/${id}`, {
           headers: {
-            Authorization: `Bearer ${token.BE_TOKEN}`,
+            Authorization: `Bearer ${getBeToken()}`,
           },
         });
 
