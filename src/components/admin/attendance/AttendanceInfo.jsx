@@ -1,4 +1,7 @@
 import React from "react";
+import axios from "axios";
+import env from "../../../config/env.js";
+import { getBeToken } from "../../../config/token.js";
 
 const AttendanceInfo = ({ attendanceInfo }) => {
   if (!attendanceInfo)
@@ -10,6 +13,25 @@ const AttendanceInfo = ({ attendanceInfo }) => {
   const { lecturer, student, deviceId, timeStart, timeEnd, createdAt } =
     attendanceInfo;
 
+    const handleAttend = async (attendanceId, studentId) => {
+    try {
+      const response = await axios.put(
+        `${env.BE_API_PATH}/Attendance/update-student-attendance/${attendanceId}/${studentId}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${getBeToken()}`,
+          },
+        }
+      );
+      if(response.status === 200){
+        alert("Cập nhật trạng thái thành công")
+      }
+    } catch (error) {
+      alert(error.response.data.message || "Thay đổi trạng thái thất bại");
+    }
+  };
+
   return (
     <div className="max-w-3xl mx-auto bg-white p-8 rounded-2xl shadow-lg space-y-6 mt-10 border border-gray-100">
       <h2 className="text-3xl font-bold text-blue-600 mb-4 text-center">
@@ -18,7 +40,7 @@ const AttendanceInfo = ({ attendanceInfo }) => {
 
       <div className="space-y-1">
         <h3 className="text-lg font-semibold text-gray-700">🕰️ Ngày tạo</h3>
-        <p className="text-gray-600">{new Date(createdAt).toLocaleString()}</p>
+        <p className="text-gray-600">{new Date(createdAt).toLocaleString("vi-VN")}</p>
       </div>
 
       <div>
@@ -54,6 +76,7 @@ const AttendanceInfo = ({ attendanceInfo }) => {
                 <th className="px-4 py-2 border">STT</th>
                 <th className="px-4 py-2 border">Tên</th>
                 <th className="px-4 py-2 border">Email</th>
+                <th className="px-4 py-2 border">MSSV</th>
                 <th className="px-4 py-2 border">Trạng thái</th>
               </tr>
             </thead>
@@ -68,13 +91,14 @@ const AttendanceInfo = ({ attendanceInfo }) => {
                     {s.student?.userName || "N/A"}
                   </td>
                   <td className="px-4 py-2 border">{s.student?.email}</td>
+                  <td className="px-4 py-2 border">{s.student?.studentCode}</td>
                   <td className="px-4 py-2 border">
                     {s.isAttended ? (
                       <span className="text-green-600 font-medium">
                         ✅ Có mặt
                       </span>
                     ) : (
-                      <span className="text-red-600 font-medium">❌ Vắng</span>
+                      <span className="text-red-600 font-medium" onClick={() => handleAttend(attendanceInfo.id, s.student.userId)}>❌ Vắng</span>
                     )}
                   </td>
                 </tr>
@@ -94,10 +118,10 @@ const AttendanceInfo = ({ attendanceInfo }) => {
       <div className="space-y-1">
         <h3 className="text-lg font-semibold text-gray-700">🗓️ Thời gian</h3>
         <p className="text-gray-600">
-          <strong>Bắt đầu:</strong> {new Date(timeStart).toLocaleString()}
+          <strong>Bắt đầu:</strong> {new Date(timeStart).toLocaleString("vi-VN")}
         </p>
         <p className="text-gray-600">
-          <strong>Kết thúc:</strong> {new Date(timeEnd).toLocaleString()}
+          <strong>Kết thúc:</strong> {new Date(timeEnd).toLocaleString("vi-VN")}
         </p>
       </div>
     </div>

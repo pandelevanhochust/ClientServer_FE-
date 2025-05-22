@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import env from "../../../config/env";
-import  { getBeToken } from "../../../config/token.js";
+import { getBeToken } from "../../../config/token.js";
 import AttendanceInfo from "./AttendanceInfo";
 import UpdateAttendanceForm from "./UpdateAttendanceForm";
 import {
@@ -63,7 +63,7 @@ const AttendanceDetail = () => {
 
   useEffect(() => {
     fetchAttendanceInfo();
-  }, [attendanceId]);
+  }, [attendanceId, attendanceInfo.isAttended]);
 
   const handleUpdateSuccess = (updatedAttendance) => {
     setAttendanceInfo(updatedAttendance);
