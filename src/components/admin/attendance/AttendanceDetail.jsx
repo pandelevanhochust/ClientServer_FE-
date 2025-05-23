@@ -9,12 +9,14 @@ import {
   getAllLecturers,
   getAllStudents,
   getAllDevices,
+  getDeviceById,
 } from "../../../utils/AdminHelper";
 
 const AttendanceDetail = () => {
   const { attendanceId } = useParams();
   const navigate = useNavigate();
 
+  const [deviceInfo, setDeviceInfo] = useState({});
   const [devices, setDevices] = useState([]);
   const [students, setStudents] = useState([]);
   const [lecturers, setLecturers] = useState([]);
@@ -49,8 +51,12 @@ const AttendanceDetail = () => {
         }
       );
       if (response.status === 200) {
-        console.log(response.data);
-        setAttendanceInfo(response.data);
+        const info = response.data;
+        setAttendanceInfo(info);
+        const data = await getDeviceById(info.deviceId); 
+        if (data) {
+          setDeviceInfo(data);
+        }
       }
     } catch (error) {
       alert(
@@ -63,7 +69,7 @@ const AttendanceDetail = () => {
 
   useEffect(() => {
     fetchAttendanceInfo();
-  }, [attendanceId, attendanceInfo.isAttended]);
+  }, [attendanceId]);
 
   const handleUpdateSuccess = (updatedAttendance) => {
     setAttendanceInfo(updatedAttendance);
@@ -127,7 +133,11 @@ const AttendanceDetail = () => {
           devices={devices}
         />
       ) : (
-        <AttendanceInfo attendanceInfo={attendanceInfo} />
+        <AttendanceInfo
+          attendanceInfo={attendanceInfo}
+          deviceInfo={deviceInfo}
+          setAttendanceInfo={setAttendanceInfo}
+        />
       )}
     </div>
   );

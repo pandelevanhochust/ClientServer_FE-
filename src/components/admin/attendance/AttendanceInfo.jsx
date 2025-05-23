@@ -3,20 +3,18 @@ import axios from "axios";
 import env from "../../../config/env.js";
 import { getBeToken } from "../../../config/token.js";
 
-const AttendanceInfo = ({ attendanceInfo }) => {
+const AttendanceInfo = ({ attendanceInfo, deviceInfo, setAttendanceInfo }) => {
   if (!attendanceInfo)
     return (
       <div className="text-center text-gray-500 mt-10">Không có dữ liệu</div>
     );
 
-    console.log(attendanceInfo)
-  const { lecturer, student, deviceId, timeStart, timeEnd, createdAt } =
-    attendanceInfo;
+  const { lecturer, student, deviceId, timeStart, timeEnd, createdAt } = attendanceInfo;
 
-    const handleAttend = async (attendanceId, studentId) => {
+  const handleAttend = async (deviceId, studentId) => {
     try {
       const response = await axios.put(
-        `${env.BE_API_PATH}/Attendance/update-student-attendance/${attendanceId}/${studentId}`,
+        `${env.BE_API_PATH}/Attendance/update-student-attendance/${deviceId}/${studentId}`,
         {},
         {
           headers: {
@@ -24,11 +22,21 @@ const AttendanceInfo = ({ attendanceInfo }) => {
           },
         }
       );
-      if(response.status === 200){
-        alert("Cập nhật trạng thái thành công")
+      if (response.status === 200) {
+        alert("Cập nhật trạng thái thành công");
+
+        const updatedStudents = attendanceInfo.student.$values.map((s) =>
+          s.student.userId === studentId ? { ...s, isAttended: true } : s
+        );
+
+        setAttendanceInfo({
+          ...attendanceInfo,
+          student: { $values: updatedStudents },
+        });
       }
     } catch (error) {
-      alert(error.response.data.message || "Thay đổi trạng thái thất bại");
+      console.log(error)
+      alert(error.response?.data?.message || "Thay đổi trạng thái thất bại");
     }
   };
 
@@ -40,11 +48,15 @@ const AttendanceInfo = ({ attendanceInfo }) => {
 
       <div className="space-y-1">
         <h3 className="text-lg font-semibold text-gray-700">🕰️ Ngày tạo</h3>
-        <p className="text-gray-600">{new Date(createdAt).toLocaleString("vi-VN")}</p>
+        <p className="text-gray-600">
+          {new Date(createdAt).toLocaleString("vi-VN")}
+        </p>
       </div>
 
       <div>
-        <h3 className="font-semibold text-gray-700 mb-2 text-lg">👨‍🏫 Giảng viên</h3>
+        <h3 className="font-semibold text-gray-700 mb-2 text-lg">
+          👨‍🏫 Giảng viên
+        </h3>
         <table className="min-w-full text-sm text-left border border-gray-200 rounded-lg">
           <thead className="bg-gray-100 text-gray-700">
             <tr>
@@ -98,7 +110,14 @@ const AttendanceInfo = ({ attendanceInfo }) => {
                         ✅ Có mặt
                       </span>
                     ) : (
-                      <span className="text-red-600 font-medium" onClick={() => handleAttend(attendanceInfo.id, s.student.userId)}>❌ Vắng</span>
+                      <span
+                        className="text-red-600 font-medium cursor-pointer"
+                        onClick={() =>
+                          handleAttend(deviceId, s.student.userId)
+                        }
+                      >
+                        ❌ Vắng
+                      </span>
                     )}
                   </td>
                 </tr>
@@ -112,13 +131,29 @@ const AttendanceInfo = ({ attendanceInfo }) => {
         <h3 className="text-lg font-semibold text-gray-700">
           📱 Thiết bị sử dụng
         </h3>
-        <p className="text-gray-600">{deviceId}</p>
+        <p className="text-gray-600">
+          <strong>Tên thiết bị : </strong>
+          {deviceInfo.name}
+        </p>
+        <p className="text-gray-600">
+          <strong>Loại thiết bị : </strong>
+          {deviceInfo.type}
+        </p>
+        <p className="text-gray-600">
+          <strong>Nhãn thiết bị : </strong>
+          {deviceInfo.label}
+        </p>
+        <p className="text-gray-600">
+          <strong>Trạng thái : </strong>
+          {deviceInfo.active ? "Đang hoạt động" : "Không hoạt động"}
+        </p>
       </div>
 
       <div className="space-y-1">
         <h3 className="text-lg font-semibold text-gray-700">🗓️ Thời gian</h3>
         <p className="text-gray-600">
-          <strong>Bắt đầu:</strong> {new Date(timeStart).toLocaleString("vi-VN")}
+          <strong>Bắt đầu:</strong>{" "}
+          {new Date(timeStart).toLocaleString("vi-VN")}
         </p>
         <p className="text-gray-600">
           <strong>Kết thúc:</strong> {new Date(timeEnd).toLocaleString("vi-VN")}

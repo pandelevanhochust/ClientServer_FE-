@@ -5,10 +5,10 @@ import { getBeToken, getTbToken } from "../config/token.js";
 export const getAllUsers = async () => {
   let users;
   try {
-    console.log("token fubc:",getBeToken())
+    console.log("token fubc:", getBeToken());
     const response = await axios.get(`${env.BE_API_PATH}/Admin/list-user`, {
       headers: {
-        Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+        Authorization: `Bearer ${sessionStorage.getItem("token")}`,
       },
     });
     if (response.status === 200) {
@@ -74,7 +74,6 @@ export const getAllLecturers = async () => {
   return lecturers;
 };
 
-
 export const getAttendancesList = async () => {
   let attendanceList;
   try {
@@ -86,15 +85,15 @@ export const getAttendancesList = async () => {
         },
       }
     );
-    if(response.status === 200){
-      attendanceList = response.data.$values
+    if (response.status === 200) {
+      attendanceList = response.data.$values;
     } else {
-      return []
+      return [];
     }
   } catch (err) {
-    alert(err.response.data.Message || "Không thể lấy danh sách điểm danh")
+    alert(err.response.data.Message || "Không thể lấy danh sách điểm danh");
   }
-  return attendanceList
+  return attendanceList;
 };
 
 export const getAllDevices = async (pageSize, page) => {
@@ -110,14 +109,55 @@ export const getAllDevices = async (pageSize, page) => {
         },
       }
     );
-    if(response.status === 200){
-      console.log(response.data.data)
-      deviceList = response.data.data
+    if (response.status === 200) {
+      console.log(response.data.data);
+      deviceList = response.data.data;
     } else {
-      return []
+      return [];
     }
   } catch (err) {
-    alert(err.response.data.message || "Không thể lấy danh sách thiết bị")
+    alert(err.response.data.message || "Không thể lấy danh sách thiết bị");
   }
-  return deviceList
+  return deviceList;
+};
+
+export const getDeviceById = async (deviceId) => {
+  let device;
+  try {
+    const response = await axios.get(`${env.TB_API_PATH}/device/info/${deviceId}`,{
+      headers : {
+        Authorization : `Bearer ${getTbToken()}`
+      }
+    })
+    if(response.status === 200){
+      device = response.data
+    } else {
+      return {}
+    }
+  } catch (error) {
+    alert(error.response.data.message || "Không thể lấy thông tin thiết bị")
+  }
+  return device
+}
+
+export const getAllPermissions = async () => {
+  let permissions;
+  try {
+    const response = await axios.get(
+      `${env.BE_API_PATH}/Permission/list-permission`,
+      {
+        headers: {
+          Authorization: `Bearer ${getBeToken()}`,
+        },
+      }
+    );
+    if (response.status === 200) {
+      permissions = response.data.$values;
+    } else {
+      return [];
+    }
+  } catch (error) {
+    alert(error.response.data.message || "Không thể lấy thông tin phân quyền");
+  }
+  return permissions;
 };

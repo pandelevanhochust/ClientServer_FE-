@@ -24,7 +24,7 @@ const AttendanceList = () => {
     setLoading(true);
     try {
       const attendanceList = await getAttendancesList();
-      console.log(attendanceList);
+
       if (attendanceList) {
         let sno = 1;
         const data = attendanceList.map((attendance) => ({
