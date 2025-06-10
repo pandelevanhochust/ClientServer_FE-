@@ -109,7 +109,6 @@ export const getAllDevices = async (pageSize, page) => {
       }
     );
     if (response.status === 200) {
-      console.log(response.data.data);
       deviceList = response.data.data;
     } else {
       return [];

@@ -24,6 +24,7 @@ import LecturerList from "./components/admin/lecturers/LecturerList";
 import LecturerDetail from "./components/admin/lecturers/LecturerDetail";
 import AddLecturer from "./components/admin/lecturers/AddLecturer";
 import DeviceList from "./components/admin/devices/DeviceList";
+import DeviceDetail from "./components/admin/devices/DeviceDetail";
 
 function App() {
   return (
@@ -92,6 +93,10 @@ function App() {
           <Route
             path="/admin-dashboard/devices"
             element={<DeviceList onClose={() => window.history.back()} />}
+          />
+          <Route
+            path="/admin-dashboard/devices/:id"
+            element={<DeviceDetail onClose={() => window.history.back()} />}
           />
 
           {/* Attendance */}

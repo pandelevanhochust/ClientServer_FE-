@@ -3,6 +3,7 @@ import { getAllDevices } from "../../../utils/AdminHelper";
 import DataTable from "react-data-table-component";
 import DeviceListFilters from "./DeviceListFilter";
 import { columns } from "./DeviceColumn";
+import DeviceListActions from "./DeviceListActions";
 //import { useNavigate } from "react-router-dom";
 
 const DeviceList = () => {
@@ -29,7 +30,7 @@ const DeviceList = () => {
           name: device.name || "N/A",
           type: device.type || "N/A",
           label: device.label || "N/A",
-          action: "action",
+          action: <DeviceListActions id={device.id.id}/>,
         }));
         setDevices(data);
         setFilteredDevices(data);
