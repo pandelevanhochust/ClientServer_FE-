@@ -19,6 +19,7 @@ import AddAttendance from "./components/admin/attendance/AddAttendance";
 import AttendanceDetail from "./components/admin/attendance/AttendanceDetail";
 import PermissionList from "./components/admin/permissions/PermissionList";
 import PermissionDetail from "./components/admin/permissions/PermissionDetail";
+import CreatePermission from "./components/admin/permissions/CreatePermission";
 
 function App() {
   return (
@@ -94,6 +95,11 @@ function App() {
           <Route
             path="/admin-dashboard/permissions/:permissionId"
             element={<PermissionDetail onClose={() => window.history.back()} />}
+          />
+
+          <Route
+            path="/admin-dashboard/permissions/create-permission"
+            element={<CreatePermission onClose={() => window.history.back()} />}
           />
 
           {/* Setting */}

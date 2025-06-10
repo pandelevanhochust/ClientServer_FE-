@@ -27,7 +27,7 @@ export const columns = [
     },
     {
       name: "Vai trò",
-      selector: (row) => row.userRoles.map((r) => r.roleName).join(", "),
+      selector: (row) => row.userRoles.map((r) => r).join(", "),
       center: "true",
       width: "180px",
     },
