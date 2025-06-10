@@ -20,6 +20,9 @@ import AttendanceDetail from "./components/admin/attendance/AttendanceDetail";
 import PermissionList from "./components/admin/permissions/PermissionList";
 import PermissionDetail from "./components/admin/permissions/PermissionDetail";
 import CreatePermission from "./components/admin/permissions/CreatePermission";
+import LecturerList from "./components/admin/lecturers/LecturerList";
+import LecturerDetail from "./components/admin/lecturers/LecturerDetail";
+import AddLecturer from "./components/admin/lecturers/AddLecturer";
 
 function App() {
   return (
@@ -68,6 +71,20 @@ function App() {
           <Route
             path="/admin-dashboard/students/add-student"
             element={<AddStudent onClose={() => window.history.back()} />}
+          />
+
+          {/* Lecturers */}
+          <Route
+            path="/admin-dashboard/lecturers"
+            element={<LecturerList onClose={() => window.history.back()} />}
+          />
+          <Route
+            path="/admin-dashboard/lecturers/:userId"
+            element={<LecturerDetail onClose={() => window.history.back()} />}
+          />
+          <Route
+            path="/admin-dashboard/lecturers/add-lecturer"
+            element={<AddLecturer onClose={() => window.history.back()} />}
           />
 
           {/* Attendance */}
