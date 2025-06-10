@@ -23,6 +23,7 @@ import CreatePermission from "./components/admin/permissions/CreatePermission";
 import LecturerList from "./components/admin/lecturers/LecturerList";
 import LecturerDetail from "./components/admin/lecturers/LecturerDetail";
 import AddLecturer from "./components/admin/lecturers/AddLecturer";
+import DeviceList from "./components/admin/devices/DeviceList";
 
 function App() {
   return (
@@ -85,6 +86,12 @@ function App() {
           <Route
             path="/admin-dashboard/lecturers/add-lecturer"
             element={<AddLecturer onClose={() => window.history.back()} />}
+          />
+
+          {/* Devices */}
+          <Route
+            path="/admin-dashboard/devices"
+            element={<DeviceList onClose={() => window.history.back()} />}
           />
 
           {/* Attendance */}

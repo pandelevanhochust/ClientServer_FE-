@@ -73,7 +73,7 @@ const Sidebar = () => {
         </NavLink>
 
         <NavLink
-          to={`/${role}-dashboard/equipments`}
+          to={`/${role}-dashboard/devices`}
           className={({ isActive }) =>
             `${
               isActive ? "bg-blue-400" : "hover:bg-blue-600"
