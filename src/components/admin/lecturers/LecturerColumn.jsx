@@ -11,14 +11,9 @@ export const columns = [
       width: "150px",
     },
     {
-      name: "Họ và tên",
-      selector: (row) => row.fullName,
+      name: "Mã giảng viên",
+      selector: (row) => row.lecturerCode,
       width: "180px",
-    },
-    {
-      name: "Số CCCD",
-      selector: (row) => row.idNumber,
-      width: "150px",
     },
     {
       name: "Email",
@@ -26,8 +21,8 @@ export const columns = [
       width: "150px",
     },
     {
-      name: "Vai trò",
-      selector: (row) => row.userRoles.map((r) => r).join(", "),
+      name: "Ngày đăng ký",
+      selector: (row) => row.hireDate, 
       center: "true",
       width: "180px",
     },
